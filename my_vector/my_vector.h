@@ -164,7 +164,7 @@ public:
     // (begin(), end(), cbegin(), cend(), rbegin(), rend(), rcbegin(), rcend()
 
     // Begin / End
-    iterator begin() { return iterator(&data_m[0]); }
+    iterator begin() { return iterator(data_m); }
     // const_iterator begin() const { return const_iterator(data_m[0]); }
     const_iterator cbegin() const noexcept { return const_iterator(&data_m[0]); }
 
@@ -295,11 +295,12 @@ my_vector<T>::my_vector(std::initializer_list<T> init) : data_m(nullptr), size_m
 }
 
 template<typename T>
-my_vector<T>::my_vector(const my_vector<T> &other) {
-    size_m = other.size_m;
-    capacity_m = other.capacity_m;
+my_vector<T>::my_vector(const my_vector<T> &other) : capacity_m(0), size_m(0), data_m(nullptr) {
 
-    reserve(SIZE_MULT * std::max(MIN_VECTOR_LEN, size_m));
+    if (capacity_m < other.size_m) {
+        reserve(SIZE_MULT * std::max(MIN_VECTOR_LEN, other.size_m));
+    }
+    size_m = other.size_m;
 
     for (size_t i = 0; i < size_m; i++) {
         data_m[i] = other.data_m[i];
@@ -584,10 +585,11 @@ void my_vector<T>::reserve(size_t new_capacity) {
     capacity_m = new_capacity;
     T * new_data_m = static_cast<T *>(::operator new(capacity_m * sizeof(T)));
 
-    for (size_t i = 0; i < size_m; ++i) {
-        // new_data_m[i] = data_m[i];
-        new(&new_data_m[i]) T(data_m[i]);
-        std::destroy_at(&data_m[i]);
+    if (data_m != nullptr) {
+        for (size_t i = 0; i < size_m; ++i) {
+            new(&new_data_m[i]) T(data_m[i]);
+            std::destroy_at(&data_m[i]);
+        }
     }
 
     ::operator delete(data_m);
