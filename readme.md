@@ -9,7 +9,7 @@ Variant: <mark>VARIANT SHOULD BE HERE</mark>
 
 ### Compilation
 
-<mark>HOW TO COMPILE YOUR PROGRAM? (RECOMMENDED: ./compile.sh -- use `./compile.sh -h` for info)</mark>
+<mark>HOW TO COMPILE YOUR PROGRAM? (RECOMMENDED: ./compile.sh)</mark>
 
 ### Installation
 
