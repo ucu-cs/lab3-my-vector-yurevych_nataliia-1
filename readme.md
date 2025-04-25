@@ -1,4 +1,4 @@
-# Lab work 2: MY_VECTOR
+# Lab work 4: MY_VECTOR
 Authors: [Nataliia Yurevych](https://github.com/yurevych2)
 
 ---
